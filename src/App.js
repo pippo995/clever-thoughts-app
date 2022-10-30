@@ -8,7 +8,7 @@ import "./App.css";
 function App() {
   const [books, setBooks] = useState([]);
 
-  const getAllHandler = async () => {
+  const cd  = async () => {
     const data = await BookDataService.getAllBooks();
     setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
