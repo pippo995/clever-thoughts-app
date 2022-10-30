@@ -2,6 +2,8 @@ import { db } from "../firebase-config";
 
 import {
   collection,
+  query,
+  orderBy,
   getDocs,
   getDoc,
   addDoc,
@@ -11,6 +13,8 @@ import {
 } from "firebase/firestore";
 
 const bookCollectionRef = collection(db, "books");
+const q = query(bookCollectionRef, orderBy("dt", "desc"));
+
 class BookDataService {
   addBooks = (newBook) => {
     return addDoc(bookCollectionRef, newBook);
@@ -26,8 +30,8 @@ class BookDataService {
     return deleteDoc(bookDoc);
   };
 
-  getAllBooks = () => {
-    return getDocs(bookCollectionRef);
+  getAllBooks = () => {    
+    return getDocs(q);
   };
 
   getBook = (id) => {

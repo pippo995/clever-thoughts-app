@@ -1,71 +1,71 @@
-import React, { useEffect, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Card, ButtonGroup, Form } from "react-bootstrap";
 import BookDataService from "../services/book.services";
 
-const BooksList = ({ getBookId }) => {
-  const [books, setBooks] = useState([]);
+const BooksList = ({ books, getAllHandler }) => {
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   useEffect(() => {
-    getBooks();
+    getAllHandler();
   }, []);
 
-  const getBooks = async () => {
-    const data = await BookDataService.getAllBooks();
-    console.log(data.docs);
-    setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
+  useEffect(() => {
+    const results = books.filter((book) =>
+      book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)
+    );
+    setSearchResults(results);
+  }, [search, books]);
 
   const deleteHandler = async (id) => {
     await BookDataService.deleteBook(id);
-    getBooks();
+    getAllHandler();
   };
+
   return (
     <>
-      <div className="mb-2">
-        <Button variant="dark edit" onClick={getBooks}>
-          Refresh List
-        </Button>
-      </div>
-
-      {/* <pre>{JSON.stringify(books, undefined, 2)}</pre>} */}
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Book Title</th>
-            <th>Book Author</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {books.map((doc, index) => {
-            return (
-              <tr key={doc.id}>
-                <td>{index + 1}</td>
-                <td>{doc.title}</td>
-                <td>{doc.author}</td>
-                <td>{doc.status}</td>
-                <td>
+      <div>
+        <Form.Group className="mb-3" controlId="">
+          <Form.Control
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </Form.Group>
+        {searchResults.map((doc) => {
+          return (
+            <div className="mb-3">
+              <Card key={doc.id} className="mb-1">
+                <Card.Body>
+                  <Card.Text>{doc.title}</Card.Text>
+                  <Card.Title>- {doc.author}</Card.Title>
+                </Card.Body>
+              </Card>
+              <div className="text-end">
+                <ButtonGroup>
                   <Button
-                    variant="secondary"
-                    className="edit"
-                    onClick={(e) => getBookId(doc.id)}
+                    variant="dark"
+                    size="md"
+                    class="delete"
+                    onClick={(e) => deleteHandler(doc.id)}
                   >
-                    Edit
+                    Copy
                   </Button>
                   <Button
                     variant="danger"
-                    className="delete"
+                    size="md"
+                    class="delete"
                     onClick={(e) => deleteHandler(doc.id)}
                   >
                     Delete
                   </Button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+                </ButtonGroup>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };
