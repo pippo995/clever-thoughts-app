@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Form } from "react-bootstrap";
 import BookDataService from "../services/book.services";
+import QuoteService from "../services/quote.services";
 
 const BooksList = ({ books, getAllHandler }) => {
   const [search, setSearch] = useState("");
@@ -11,8 +12,13 @@ const BooksList = ({ books, getAllHandler }) => {
   }, []);
 
   useEffect(() => {
+    const searchTerms = search.split(" ");
     const results = books.filter((book) =>
-      book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)
+      searchTerms.some(
+        (q) =>
+          book.title.toLowerCase().includes(q) ||
+          book.author.toLowerCase().includes(q)
+      )
     );
     setSearchResults(results);
   }, [search, books]);
@@ -22,9 +28,40 @@ const BooksList = ({ books, getAllHandler }) => {
     getAllHandler();
   };
 
+  const copyValue = async (doc) => {
+    const quote = doc.title + "\n" + "( " + doc.author + " )";
+    navigator.clipboard.writeText(quote);
+  };
+
   return (
     <>
       <div>
+        <div className="mb-3">
+          <Card className="mb-1">
+            <Card.Body>
+              <Card.Text>random</Card.Text>
+              <Card.Title>- rnd</Card.Title>
+            </Card.Body>
+          </Card>
+          <div className="text-end">
+            <ButtonGroup>
+              <Button
+                variant="dark"
+                size="md"
+                onClick={() => copyValue()}
+              >
+                Save
+              </Button>
+              <Button
+                variant="danger"
+                size="md"
+                onClick={(e) => deleteHandler()}
+              >
+                Dismiss
+              </Button>
+            </ButtonGroup>
+          </div>
+        </div>
         <Form.Group className="mb-3" controlId="">
           <Form.Control
             type="text"
@@ -47,15 +84,13 @@ const BooksList = ({ books, getAllHandler }) => {
                   <Button
                     variant="dark"
                     size="md"
-                    class="delete"
-                    onClick={(e) => deleteHandler(doc.id)}
+                    onClick={(e) => copyValue(doc)}
                   >
                     Copy
                   </Button>
                   <Button
                     variant="danger"
                     size="md"
-                    class="delete"
                     onClick={(e) => deleteHandler(doc.id)}
                   >
                     Delete
