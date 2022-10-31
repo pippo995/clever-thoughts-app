@@ -24,8 +24,6 @@ const AddBook = ({ getAllHandler }) => {
         ? { title, author: "Anonymus", dt: new Date() }
         : { title, author, dt: new Date() };
 
-    console.log(newBook);
-
     try {
       await BookDataService.addBooks(newBook);
       setMessage({ error: false, msg: "New Book added successfully!" });
@@ -40,7 +38,7 @@ const AddBook = ({ getAllHandler }) => {
 
   return (
     <>
-      <div className="p-4 box">
+      <div className="mt-3 mb-3">
         {message?.msg && (
           <Alert
             variant={message?.error ? "danger" : "success"}
@@ -53,7 +51,6 @@ const AddBook = ({ getAllHandler }) => {
         <Form onSubmit={addHandler}>
           <Form.Group className="mb-3" controlId="formBookTitle">
             <Form.Control
-              className="formBookTitle"
               as="textarea"
               placeholder="Quote"
               value={title}

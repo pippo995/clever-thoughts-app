@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Form } from "react-bootstrap";
 import BookDataService from "../services/book.services";
-import QuoteService from "../services/quote.services";
 
 const BooksList = ({ books, getAllHandler }) => {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  useEffect(() => {
-    getAllHandler();
-  }, []);
 
   useEffect(() => {
     const searchTerms = search.split(" ");
@@ -36,32 +31,6 @@ const BooksList = ({ books, getAllHandler }) => {
   return (
     <>
       <div>
-        <div className="mb-3">
-          <Card className="mb-1">
-            <Card.Body>
-              <Card.Text>random</Card.Text>
-              <Card.Title>- rnd</Card.Title>
-            </Card.Body>
-          </Card>
-          <div className="text-end">
-            <ButtonGroup>
-              <Button
-                variant="dark"
-                size="md"
-                onClick={() => copyValue()}
-              >
-                Save
-              </Button>
-              <Button
-                variant="danger"
-                size="md"
-                onClick={(e) => deleteHandler()}
-              >
-                Dismiss
-              </Button>
-            </ButtonGroup>
-          </div>
-        </div>
         <Form.Group className="mb-3" controlId="">
           <Form.Control
             type="text"

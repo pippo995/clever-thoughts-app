@@ -2,7 +2,7 @@
   justify-content: center;
 }
 
-.formBookTitle {
-  height: 100px;
+#formBookTitle {
+  height: 150px;
   resize: none;
 }

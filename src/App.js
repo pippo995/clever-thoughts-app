@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Container, Navbar, Row, Col } from "react-bootstrap";
 import AddBook from "./components/AddBook";
 import BooksList from "./components/BooksList";
+import RndQuote from "./components/RndQuote";
 import BookDataService from "./services/book.services";
 import "./App.css";
 
@@ -31,6 +32,7 @@ function App() {
       <Container>
         <Row>
           <Col>
+            <RndQuote getAllHandler={getAllHandler}/>
             <BooksList books={books} getAllHandler={getAllHandler}/>
           </Col>
         </Row>
