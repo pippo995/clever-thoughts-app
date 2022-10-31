@@ -3,16 +3,16 @@ import { Button, Card, ButtonGroup, Alert } from "react-bootstrap";
 import BookDataService from "../services/book.services";
 
 const BooksList = ({ books, getAllHandler }) => {
-  const [rndQuotes, setRndQuotes] = useState([]);
-  const [rndQuote, setRndQuote] = useState({ title: "", author: "" });
+  const [rndQuote, setRndQuote] = useState({title:"", author:""});
   const [message, setMessage] = useState({ error: false, msg: "" });
-
-  fetch("https://type.fit/api/quotes")
-    .then((response) => response.json())
-    .then((data) => setRndQuotes(data));
+  const [hideComponent, setHideComponent] = useState(false);
 
   useEffect(() => {
-    setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
+    fetch("https://type.fit/api/quotes")
+      .then((response) => response.json())
+      .then((data) =>
+        setRndQuote(data[Math.floor(Math.random() * data.length)])
+      );
   }, []);
 
   const saveHandler = async () => {
@@ -34,8 +34,8 @@ const BooksList = ({ books, getAllHandler }) => {
     getAllHandler();
   };
 
-  const dismissHandler = async (id) => {
-    await BookDataService.deleteBook(id);
+  const dismissHandler = () => {
+    setHideComponent(true);
   };
 
   return (
@@ -49,30 +49,29 @@ const BooksList = ({ books, getAllHandler }) => {
           {message?.msg}
         </Alert>
       )}
-      {rndQuote?.title || (
-        <div className="mb-3">
-          <Card className="mb-1">
-            <Card.Body>
-              <Card.Text>{rndQuote.text}</Card.Text>
-              <Card.Title>- {rndQuote.author}</Card.Title>
-            </Card.Body>
-          </Card>
-          <div className="text-end">
-            <ButtonGroup>
-              <Button variant="dark" size="md" onClick={() => saveHandler()}>
-                Save
-              </Button>
-              <Button
-                variant="danger"
-                size="md"
-                onClick={(e) => dismissHandler()}
-              >
-                Dismiss
-              </Button>
-            </ButtonGroup>
-          </div>
+      {!hideComponent ? 
+      <div className="mb-3">
+        <Card className="mb-1">
+          <Card.Body>
+            <Card.Text>{rndQuote.text}</Card.Text>
+            <Card.Title>- {rndQuote.author}</Card.Title>
+          </Card.Body>
+        </Card>
+        <div className="text-end">
+          <ButtonGroup>
+            <Button variant="dark" size="md" onClick={() => saveHandler()}>
+              Save
+            </Button>
+            <Button
+              variant="danger"
+              size="md"
+              onClick={() => dismissHandler()}
+            >
+              Dismiss
+            </Button>
+          </ButtonGroup>
         </div>
-      )}
+      </div> : null}
     </>
   );
 };
