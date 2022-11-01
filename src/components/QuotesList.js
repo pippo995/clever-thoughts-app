@@ -3,20 +3,30 @@ import { Button, Card, ButtonGroup, Form } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
 const QuotesList = ({ quotes, getAllHandler }) => {
-  const [search, setSearch] = useState("");
+  const [searchBar, setSearchBar] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    const searchTerms = search.split(" ");
-    const results = quotes.filter((quote) =>
-      searchTerms.some(
-        (q) =>
-          quote.text.toLowerCase().includes(q) ||
-          quote.author.toLowerCase().includes(q)
-      )
-    );
-    setSearchResults(results);
-  }, [search, quotes]);
+    searchHandler();
+  }, [quotes, searchBar]);
+
+  const searchHandler = () => {
+    if (searchBar.trim() !== "") {
+      const searchTerms = searchBar
+        .split(" ")
+        .filter((s) => s.trim().length !== 0);
+      const results = quotes.filter((quote) =>
+        searchTerms.some(
+          (q) =>
+            quote.text.toLowerCase().includes(q) ||
+            quote.author.toLowerCase().includes(q)
+        )
+      );
+      setSearchResults(results);
+    } else {
+      setSearchResults(quotes);
+    }
+  };
 
   const deleteHandler = async (id) => {
     await QuoteDataService.deleteQuote(id);
@@ -35,8 +45,7 @@ const QuotesList = ({ quotes, getAllHandler }) => {
           <Form.Control
             type="text"
             placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => setSearchBar(e.target.value)}
           />
         </Form.Group>
         {searchResults.map((doc) => {

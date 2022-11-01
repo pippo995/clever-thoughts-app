@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Container, Navbar, Row, Col } from "react-bootstrap";
-import AddQuote from "./components/AddQuote";
 import QuotesList from "./components/QuotesList";
-import RndQuote from "./components/RndQuote";
+import TopPage from "./components/TopPage";
 import QuoteDataService from "./services/quote.services";
+
 
 function App() {
   const [quotes, setQuotes] = useState([]);
@@ -21,17 +21,10 @@ function App() {
         </Container>
       </Navbar>
 
+      <TopPage getAllHandler={getAllHandler}/>
       <Container>
         <Row>
-          <Col>
-            <AddQuote getAllHandler={getAllHandler}/>
-          </Col>
-        </Row>
-      </Container>
-      <Container>
-        <Row>
-          <Col>
-            <RndQuote getAllHandler={getAllHandler}/>
+          <Col>            
             <QuotesList quotes={quotes} getAllHandler={getAllHandler}/>
           </Col>
         </Row>

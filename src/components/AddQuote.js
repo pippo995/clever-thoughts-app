@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Alert, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const AddQuote = ({ getAllHandler }) => {
+const AddQuote = ({ getAllHandler}) => {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
@@ -11,8 +11,7 @@ const AddQuote = ({ getAllHandler }) => {
     getAllHandler();
   }, []);
 
-  const addHandler = async (e) => {
-    e.preventDefault();
+  const addHandler = async () => {
 
     if (text === "") {
       setMessage({ error: true, msg: "Text is mandatory!" });
