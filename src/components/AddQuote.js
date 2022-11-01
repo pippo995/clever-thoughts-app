@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Form, Alert, Button } from "react-bootstrap";
-import BookDataService from "../services/book.services";
+import QuoteDataService from "../services/quote.services";
 
-const AddBook = ({ getAllHandler }) => {
-  const [title, setTitle] = useState("");
+const AddQuote = ({ getAllHandler }) => {
+  const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
 
@@ -14,24 +14,24 @@ const AddBook = ({ getAllHandler }) => {
   const addHandler = async (e) => {
     e.preventDefault();
 
-    if (title === "") {
-      setMessage({ error: true, msg: "Quote is mandatory!" });
+    if (text === "") {
+      setMessage({ error: true, msg: "Text is mandatory!" });
       return;
     }
 
-    const newBook =
+    const newQuote =
       author === ""
-        ? { title, author: "Anonymus", dt: new Date() }
-        : { title, author, dt: new Date() };
+        ? { text, author: "Anonymus", dt: new Date() }
+        : { text, author, dt: new Date() };
 
     try {
-      await BookDataService.addBooks(newBook);
-      setMessage({ error: false, msg: "New Book added successfully!" });
+      await QuoteDataService.addQuotes(newQuote);
+      setMessage({ error: false, msg: "New quote added successfully!" });
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
 
-    setTitle("");
+    setText("");
     setAuthor("");
     getAllHandler();
   };
@@ -49,16 +49,16 @@ const AddBook = ({ getAllHandler }) => {
           </Alert>
         ) : null}
         <Form onSubmit={addHandler}>
-          <Form.Group className="mb-3" controlId="formBookTitle">
+          <Form.Group className="mb-3">
             <Form.Control
               as="textarea"
+              rows={4}
               placeholder="Quote"
-              value={title}
-              rows={3}
-              onChange={(e) => setTitle(e.target.value)}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBookAuthor">
+          <Form.Group className="mb-3">
             <Form.Control
               type="text"
               placeholder="Author"
@@ -77,4 +77,4 @@ const AddBook = ({ getAllHandler }) => {
   );
 };
 
-export default AddBook;
+export default AddQuote 

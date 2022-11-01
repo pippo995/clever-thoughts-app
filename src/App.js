@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { Container, Navbar, Row, Col } from "react-bootstrap";
-import AddBook from "./components/AddBook";
-import BooksList from "./components/BooksList";
+import AddQuote from "./components/AddQuote";
+import QuotesList from "./components/QuotesList";
 import RndQuote from "./components/RndQuote";
-import BookDataService from "./services/book.services";
-import "./App.css";
+import QuoteDataService from "./services/quote.services";
 
 function App() {
-  const [books, setBooks] = useState([]);
+  const [quotes, setQuotes] = useState([]);
 
   const getAllHandler  = async () => {
-    const data = await BookDataService.getAllBooks();
-    setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const data = await QuoteDataService.getAllQuotes();
+    setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
   
   return (
@@ -25,7 +24,7 @@ function App() {
       <Container>
         <Row>
           <Col>
-            <AddBook getAllHandler={getAllHandler}/>
+            <AddQuote getAllHandler={getAllHandler}/>
           </Col>
         </Row>
       </Container>
@@ -33,7 +32,7 @@ function App() {
         <Row>
           <Col>
             <RndQuote getAllHandler={getAllHandler}/>
-            <BooksList books={books} getAllHandler={getAllHandler}/>
+            <QuotesList quotes={quotes} getAllHandler={getAllHandler}/>
           </Col>
         </Row>
       </Container>

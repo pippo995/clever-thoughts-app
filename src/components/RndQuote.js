@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Alert } from "react-bootstrap";
-import BookDataService from "../services/book.services";
+import QuoteDataService from "../services/quote.services";
 
-const BooksList = ({ books, getAllHandler }) => {
-  const [rndQuote, setRndQuote] = useState({title:"", author:""});
+const RndQuote= ({ getAllHandler }) => {
+  const [rndQuote, setRndQuote] = useState({ text: "", author: "" });
   const [message, setMessage] = useState({ error: false, msg: "" });
   const [hideComponent, setHideComponent] = useState(false);
 
@@ -16,17 +16,17 @@ const BooksList = ({ books, getAllHandler }) => {
   }, []);
 
   const saveHandler = async () => {
-    const title = rndQuote.text;
+    const text = rndQuote.text;
     const author = rndQuote.author;
 
-    const newBook =
-      author === ""
-        ? { title, author: "Anonymus", dt: new Date() }
-        : { title, author, dt: new Date() };
+    const newQuote =
+      author === null
+        ? { text, author: "Anonymus", dt: new Date() }
+        : { text, author, dt: new Date() };
 
     try {
-      await BookDataService.addBooks(newBook);
-      setMessage({ error: false, msg: "New Book added successfully!" });
+      await QuoteDataService.addQuotes(newQuote);
+      setMessage({ error: false, msg: "New quote added successfully!" });
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
@@ -41,7 +41,7 @@ const BooksList = ({ books, getAllHandler }) => {
 
   return (
     <>
-      {message.error ? 
+      {message.error ? (
         <Alert
           variant={message?.error ? "danger" : "success"}
           dismissible
@@ -49,32 +49,35 @@ const BooksList = ({ books, getAllHandler }) => {
         >
           {message?.msg}
         </Alert>
-      : null }
-      {!hideComponent ? 
-      <div className="mb-3">
-        <Card className="mb-1">
-          <Card.Body>
-            <Card.Text>{rndQuote.text}</Card.Text>
-            <Card.Title>- {rndQuote.author}</Card.Title>
-          </Card.Body>
-        </Card>
-        <div className="text-end">
-          <ButtonGroup>
-            <Button variant="dark" size="md" onClick={() => saveHandler()}>
-              Save
-            </Button>
-            <Button
-              variant="danger"
-              size="md"
-              onClick={() => dismissHandler()}
-            >
-              Dismiss
-            </Button>
-          </ButtonGroup>
+      ) : null}
+      {!hideComponent ? (
+        <div className="mb-3">
+          <Card className="mb-1">
+            <Card.Body>
+              <Card.Text>{rndQuote.text}</Card.Text>
+              <Card.Title>
+                - {rndQuote.author !== null ? rndQuote.author : "Anonymus"}
+              </Card.Title>
+            </Card.Body>
+          </Card>
+          <div className="text-end">
+            <ButtonGroup>
+              <Button variant="dark" size="md" onClick={() => saveHandler()}>
+                Save
+              </Button>
+              <Button
+                variant="danger"
+                size="md"
+                onClick={() => dismissHandler()}
+              >
+                Dismiss
+              </Button>
+            </ButtonGroup>
+          </div>
         </div>
-      </div> : null}
+      ) : null}
     </>
   );
 };
 
-export default BooksList;
+export default RndQuote;

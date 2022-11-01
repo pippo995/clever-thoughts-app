@@ -11,17 +11,17 @@ describe("Add a quote", () => {
     const testQuote = "test quote: " + Math.random();
     const testAuthor = "test author: " + Math.random();
 
-    cy.get("textarea[id=formBookTitle]")
+    cy.get("textarea")
     .type(testQuote);
-    cy.get("input[id=formBookAuthor]")
+    cy.get("input")
     .type(testAuthor);
 
     cy.get("button[type=submit]")
     .click();
 
-    cy.get("textarea[id=formBookTitle]")
+    cy.get("textarea")
     .should('have.value', '');
-    cy.get("input[id=formBookAuthor]")
+    cy.get("input")
     .should('have.value', '');
 
     cy.contains(testQuote);

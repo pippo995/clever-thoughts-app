@@ -1,37 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Form } from "react-bootstrap";
-import BookDataService from "../services/book.services";
+import QuoteDataService from "../services/quote.services";
 
-const BooksList = ({ books, getAllHandler }) => {
+const QuotesList = ({ quotes, getAllHandler }) => {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const searchTerms = search.split(" ");
-    const results = books.filter((book) =>
+    const results = quotes.filter((quote) =>
       searchTerms.some(
         (q) =>
-          book.title.toLowerCase().includes(q) ||
-          book.author.toLowerCase().includes(q)
+          quote.text.toLowerCase().includes(q) ||
+          quote.author.toLowerCase().includes(q)
       )
     );
     setSearchResults(results);
-  }, [search, books]);
+  }, [search, quotes]);
 
   const deleteHandler = async (id) => {
-    await BookDataService.deleteBook(id);
+    await QuoteDataService.deleteQuote(id);
     getAllHandler();
   };
 
   const copyValue = async (doc) => {
-    const quote = doc.title + "\n" + "( " + doc.author + " )";
+    const quote = doc.text + "\n" + "( " + doc.author + " )";
     navigator.clipboard.writeText(quote);
   };
 
   return (
     <>
       <div>
-        <Form.Group className="mb-3" controlId="">
+        <Form.Group className="mb-3">
           <Form.Control
             type="text"
             placeholder="Search"
@@ -44,7 +44,7 @@ const BooksList = ({ books, getAllHandler }) => {
             <div className="mb-3">
               <Card key={doc.id} className="mb-1">
                 <Card.Body>
-                  <Card.Text>{doc.title}</Card.Text>
+                  <Card.Text>{doc.text}</Card.Text>
                   <Card.Title>- {doc.author}</Card.Title>
                 </Card.Body>
               </Card>
@@ -53,14 +53,14 @@ const BooksList = ({ books, getAllHandler }) => {
                   <Button
                     variant="dark"
                     size="md"
-                    onClick={(e) => copyValue(doc)}
+                    onClick={() => copyValue(doc)}
                   >
                     Copy
                   </Button>
                   <Button
                     variant="danger"
                     size="md"
-                    onClick={(e) => deleteHandler(doc.id)}
+                    onClick={() => deleteHandler(doc.id)}
                   >
                     Delete
                   </Button>
@@ -74,4 +74,4 @@ const BooksList = ({ books, getAllHandler }) => {
   );
 };
 
-export default BooksList;
+export default QuotesList;
