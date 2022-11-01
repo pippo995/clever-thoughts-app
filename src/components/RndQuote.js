@@ -32,6 +32,7 @@ const BooksList = ({ books, getAllHandler }) => {
     }
 
     getAllHandler();
+    setHideComponent(true);
   };
 
   const dismissHandler = () => {
@@ -40,7 +41,7 @@ const BooksList = ({ books, getAllHandler }) => {
 
   return (
     <>
-      {message?.msg && (
+      {message.error ? 
         <Alert
           variant={message?.error ? "danger" : "success"}
           dismissible
@@ -48,7 +49,7 @@ const BooksList = ({ books, getAllHandler }) => {
         >
           {message?.msg}
         </Alert>
-      )}
+      : null }
       {!hideComponent ? 
       <div className="mb-3">
         <Card className="mb-1">

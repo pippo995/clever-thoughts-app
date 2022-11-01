@@ -39,7 +39,7 @@ const AddBook = ({ getAllHandler }) => {
   return (
     <>
       <div className="mt-3 mb-3">
-        {message?.msg && (
+        {message.error ? (
           <Alert
             variant={message?.error ? "danger" : "success"}
             dismissible
@@ -47,7 +47,7 @@ const AddBook = ({ getAllHandler }) => {
           >
             {message?.msg}
           </Alert>
-        )}
+        ) : null}
         <Form onSubmit={addHandler}>
           <Form.Group className="mb-3" controlId="formBookTitle">
             <Form.Control
