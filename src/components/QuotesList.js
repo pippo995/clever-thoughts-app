@@ -2,15 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Form } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const QuotesList = ({ quotes, getAllHandler }) => {
+const QuotesList = ({ quotes, getQuotes }) => {
   const [searchBar, setSearchBar] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  useEffect(() => {
-    searchHandler();
-  }, [quotes, searchBar]);
+  console.log("render");
 
-  const searchHandler = () => {
+  useEffect(() => {
+    console.log("useEffect");
+    setSearchResults(quotes);
+  });
+
+  function searchHandler(e) {
+    console.log("search:" + e.target.value);
+
+    setSearchBar(e.target.value);
+
     if (searchBar.trim() !== "") {
       const searchTerms = searchBar
         .split(" ")
@@ -26,17 +33,17 @@ const QuotesList = ({ quotes, getAllHandler }) => {
     } else {
       setSearchResults(quotes);
     }
-  };
+  }
 
-  const deleteHandler = async (id) => {
-    await QuoteDataService.deleteQuote(id);
-    getAllHandler();
-  };
+  function deleteHandler(id) {
+    QuoteDataService.deleteQuote(id);
+    getQuotes();
+  }
 
-  const copyValue = async (doc) => {
-    const quote = doc.text + "\n" + "( " + doc.author + " )";
-    navigator.clipboard.writeText(quote);
-  };
+  function copyHandler(quote) {
+    const quoteClip = quote.text + "\n" + "( " + quote.author + " )";
+    navigator.clipboard.writeText(quoteClip);
+  }
 
   return (
     <>
@@ -45,16 +52,17 @@ const QuotesList = ({ quotes, getAllHandler }) => {
           <Form.Control
             type="text"
             placeholder="Search"
-            onChange={(e) => setSearchBar(e.target.value)}
+            onInput={(e) => searchHandler(e)}
+            value={searchBar}
           />
         </Form.Group>
-        {searchResults.map((doc) => {
+        {searchResults.map((quote) => {
           return (
-            <div className="mb-3">
-              <Card key={doc.id} className="mb-1">
+            <div key={quote.id} className="mb-3">
+              <Card className="mb-1">
                 <Card.Body>
-                  <Card.Text>{doc.text}</Card.Text>
-                  <Card.Title>- {doc.author}</Card.Title>
+                  <Card.Text>{quote.text}</Card.Text>
+                  <Card.Title>- {quote.author}</Card.Title>
                 </Card.Body>
               </Card>
               <div className="text-end">
@@ -62,14 +70,14 @@ const QuotesList = ({ quotes, getAllHandler }) => {
                   <Button
                     variant="dark"
                     size="md"
-                    onClick={() => copyValue(doc)}
+                    onClick={() => copyHandler(quote)}
                   >
                     Copy
                   </Button>
                   <Button
                     variant="danger"
                     size="md"
-                    onClick={() => deleteHandler(doc.id)}
+                    onClick={() => deleteHandler(quote.id)}
                   >
                     Delete
                   </Button>

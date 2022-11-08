@@ -8,7 +8,11 @@ import QuoteDataService from "./services/quote.services";
 function App() {
   const [quotes, setQuotes] = useState([]);
 
-  const getAllHandler  = async () => {
+  console.log("render")
+
+  const getQuotes  = async () => {
+    console.log("getQuotes")
+
     const data = await QuoteDataService.getAllQuotes();
     setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
@@ -17,15 +21,15 @@ function App() {
     <>
       <Navbar bg="light" variant="light" className="header" style ={{ width: "100%"}}>
         <Container>
-          <Navbar.Brand href="#home">Quotes App</Navbar.Brand>
+          <Navbar.Brand>Quotes App</Navbar.Brand>
         </Container>
       </Navbar>
 
-      <TopPage getAllHandler={getAllHandler}/>
+      <TopPage getQuotes={getQuotes}/>
       <Container>
         <Row>
           <Col>            
-            <QuotesList quotes={quotes} getAllHandler={getAllHandler}/>
+            <QuotesList quotes={quotes} getQuotes={getQuotes}/>
           </Col>
         </Row>
       </Container>

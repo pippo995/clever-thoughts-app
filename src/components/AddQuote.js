@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Form, Alert, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const AddQuote = ({ getAllHandler}) => {
+const AddQuote = ({ getQuotes}) => {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
 
   useEffect(() => {
-    getAllHandler();
+    getQuotes();
   }, []);
 
   const addHandler = async () => {
@@ -32,7 +32,7 @@ const AddQuote = ({ getAllHandler}) => {
 
     setText("");
     setAuthor("");
-    getAllHandler();
+    getQuotes();
   };
 
   return (

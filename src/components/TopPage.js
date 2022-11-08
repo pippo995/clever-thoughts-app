@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import AddQuote from "./AddQuote";
 import RndQuote from "./RndQuote";
 
-function TopPage({ getAllHandler }) {
+function TopPage({ getQuotes }) {
   const [width, setWidth] = useState(window.innerWidth);
 
   function handleResize() {
@@ -17,11 +17,11 @@ function TopPage({ getAllHandler }) {
       <Container>
         <Row>
           <Col>
-            <AddQuote getAllHandler={getAllHandler} />
+            <AddQuote getQuotes={getQuotes} />
           </Col>
           {width > 500 ? (
             <Col>
-              <RndQuote getAllHandler={getAllHandler} />
+              <RndQuote getQuotes={getQuotes} />
             </Col>
           ) : null}
         </Row>

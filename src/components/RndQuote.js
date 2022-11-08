@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Alert } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const RndQuote = ({ getAllHandler }) => {
+const RndQuote = ({ getQuotes }) => {
   const [rndQuote, setRndQuote] = useState({ text: "", author: "" });
   const [message, setMessage] = useState({ error: false, msg: "" });
   const [hideComponent, setHideComponent] = useState(false);
@@ -31,7 +31,7 @@ const RndQuote = ({ getAllHandler }) => {
       setMessage({ error: true, msg: err.message });
     }
 
-    getAllHandler();
+    getQuotes();
     setHideComponent(true);
   };
 
