@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { Container, Navbar, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Row, Col } from "react-bootstrap";
+import AddQuote from "./components/AddQuote";
+import RndQuote from "./components/RndQuote";
 import QuotesList from "./components/QuotesList";
-import TopPage from "./components/TopPage";
 import QuoteDataService from "./services/quote.services";
 
-
 function App() {
+  const [width, setWidth] = useState(window.innerWidth);  
   const [quotes, setQuotes] = useState([]);
 
-  console.log("render")
+  function handleResize() {
+    setWidth(window.innerWidth);
+  }
+
+  window.addEventListener("resize", handleResize);
 
   const getQuotes  = async () => {
     console.log("getQuotes")
@@ -25,7 +30,18 @@ function App() {
         </Container>
       </Navbar>
 
-      <TopPage getQuotes={getQuotes}/>
+      <Container>
+        <Row>
+          <Col>
+            <AddQuote getQuotes={getQuotes} />
+          </Col>
+          {width > 500 ? (
+            <Col>
+              <RndQuote getQuotes={getQuotes} />
+            </Col>
+          ) : null}
+        </Row>
+      </Container>
       <Container>
         <Row>
           <Col>            
