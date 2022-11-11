@@ -5,6 +5,11 @@ const QuotesList = ({ quotes, getQuotes }) => {
   const [searchBar, setSearchBar] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
+  useEffect(() => {
+    getQuotes();
+  }, []);
+
+
   function searchHandler(e) {
     setSearchBar(e.target.value);
 
@@ -34,7 +39,7 @@ const QuotesList = ({ quotes, getQuotes }) => {
         value={searchBar}
       />
       {(searchBar !== "" ? searchResults : quotes).map((quote) => {
-        return <Quote quote={quote} getQuotes={getQuotes}/>;
+        return <Quote key={quote.id} quote={quote} getQuotes={getQuotes}/>;
       })}
     </div>
   );

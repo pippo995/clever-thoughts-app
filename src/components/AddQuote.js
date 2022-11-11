@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import QuoteDataService from "../services/quote.services";
 
 const AddQuote = ({ getQuotes }) => {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
 
-  useEffect(() => {
-    getQuotes();
-  }, []);
+  function textHandler(e) {
+    setText(e.target.value);
+  }
 
-  const addHandler = async (e) => {
+  function authorHandler(e) {
+    setAuthor(e.target.value);
+  }
+
+  async function addHandler(e) {
     e.preventDefault();
-    
+
     if (text === "") {
       return;
     }
@@ -28,7 +32,7 @@ const AddQuote = ({ getQuotes }) => {
     setText("");
     setAuthor("");
     getQuotes();
-  };
+  }
 
   return (
     <>
@@ -38,19 +42,17 @@ const AddQuote = ({ getQuotes }) => {
             rows={4}
             placeholder="Quote"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={textHandler}
           />
 
           <input
             type="text"
             placeholder="Author"
             value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            onChange={authorHandler}
           />
 
-          <button variant="primary" type="submit">
-            Save
-          </button>
+          <button>Save</button>
         </form>
       </div>
     </>
