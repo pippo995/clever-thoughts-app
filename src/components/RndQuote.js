@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Card, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const RndQuote = ({ getQuotes }) => {
-  const [rndQuotes, setRndQuotes] = useState([]);
+const RndQuote = ({ rndQuotes, getRndQuotes, getQuotes }) => {
   const [rndQuote, setRndQuote] = useState({ text: "", author: "" });
 
   useEffect(() => {
-    setRndQuotes(fetchRndQuotes());
-    console.log(rndQuotes);
+    getRndQuotes();
+    //setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
   }, []);
 
   async function saveHandler() {
@@ -24,39 +24,23 @@ const RndQuote = ({ getQuotes }) => {
     } catch (err) {}
 
     getQuotes();
-    fetchRndQuotes();
-  };
+    setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
+  }
 
-  function dismissHandler () {
-    fetchRndQuotes();
-  };
-
-  function fetchRndQuotes () {
-    return fetch("https://type.fit/api/quotes")
-      .then((response) => response.json())
-      .then((data) =>
-        setRndQuote(data[Math.floor(Math.random() * data.length)])
-      );
+  function dismissHandler() {
+    setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
   }
 
   return (
     <>
-      <div>
-        <div>
+      <Card>
+        <Card.Body>
           <p>{rndQuote.text}</p>
-          <h4>- {rndQuote.author !== null ? rndQuote.author : "Anonymus"}</h4>
-        </div>
-        <div>
-          <div>
-            <button onClick={saveHandler}>
-              Save
-            </button>
-            <button onClick={dismissHandler}>
-              Dismiss
-            </button>
-          </div>
-        </div>
-      </div>
+          <h4>- {rndQuote.author !== "" ? rndQuote.author : "Anonymus"}</h4>
+          <Button size="sm" onClick={saveHandler}>Save</Button>
+          <Button size="sm" onClick={dismissHandler}>Dismiss</Button>
+        </Card.Body>
+      </Card>
     </>
   );
 };

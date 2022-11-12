@@ -1,4 +1,5 @@
 import React from "react";
+import { Col, Card, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
 const Quote = ({ quote, getQuotes }) => {
@@ -13,16 +14,20 @@ const Quote = ({ quote, getQuotes }) => {
   }
 
   return (
-    <div key={quote.id}>
-      <div>
-        <p>{quote.text}</p>
-        <h4>- {quote.author}</h4>
-      </div>
-      <div>
-        <button onClick={() => copyHandler(quote)}>Copy</button>
-        <button onClick={() => deleteHandler(quote)}>Delete</button>
-      </div>
-    </div>
+    <Col>
+      <Card style={{"height" : "100%"}}>
+        <Card.Body>
+          <p>{quote.text}</p>
+          <h4>- {quote.author}</h4>
+          <Button size="sm" onClick={() => copyHandler(quote)}>
+            Copy
+          </Button>
+          <Button size="sm" onClick={() => deleteHandler(quote)}>
+            Delete
+          </Button>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Row, Col, Form } from "react-bootstrap";
 import Quote from "./Quote";
 
 const QuotesList = ({ quotes, getQuotes }) => {
@@ -8,7 +9,6 @@ const QuotesList = ({ quotes, getQuotes }) => {
   useEffect(() => {
     getQuotes();
   }, []);
-
 
   function searchHandler(e) {
     setSearchBar(e.target.value);
@@ -32,15 +32,19 @@ const QuotesList = ({ quotes, getQuotes }) => {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search"
-        onInput={(e) => searchHandler(e)}
-        value={searchBar}
-      />
-      {(searchBar !== "" ? searchResults : quotes).map((quote) => {
-        return <Quote key={quote.id} quote={quote} getQuotes={getQuotes}/>;
-      })}
+      <Row>
+        <Form.Control
+          type="text"
+          placeholder="Search"
+          onInput={(e) => searchHandler(e)}
+          value={searchBar}
+        />
+      </Row>
+      <Row xs={1} md={2} className="g-2">
+        {(searchBar !== "" ? searchResults : quotes).map((quote) => {
+          return <Quote key={quote.id} quote={quote} getQuotes={getQuotes} />;
+        })}
+      </Row>
     </div>
   );
 };

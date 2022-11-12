@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
 const AddQuote = ({ getQuotes }) => {
@@ -36,25 +37,27 @@ const AddQuote = ({ getQuotes }) => {
 
   return (
     <>
-      <div>
-        <form onSubmit={addHandler}>
-          <textarea
+      <Form onSubmit={addHandler}>
+        <Form.Group>
+          <Form.Control
+            as="textarea"
+            style={{ resize: "none" }}
             rows={4}
             placeholder="Quote"
             value={text}
             onChange={textHandler}
           />
 
-          <input
+          <Form.Control
             type="text"
             placeholder="Author"
             value={author}
             onChange={authorHandler}
           />
 
-          <button>Save</button>
-        </form>
-      </div>
+          <Button type="submit">Save</Button>
+        </Form.Group>
+      </Form>
     </>
   );
 };
