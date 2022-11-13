@@ -13,8 +13,8 @@ const QuotesList = ({ quotes, fetchQuotes }) => {
   function searchHandler(e) {
     setSearchBar(e.target.value);
 
-    if (searchBar.trim() !== "") {
-      const searchTerms = searchBar
+    if (e.target.value.trim() !== "") {
+      const searchTerms = e.target.value
         .split(" ")
         .filter((s) => s.trim().length !== 0);
       const results = quotes.filter((quote) =>
@@ -37,7 +37,7 @@ const QuotesList = ({ quotes, fetchQuotes }) => {
           <Form.Control
             type="text"
             placeholder="Search"
-            onInput={(e) => searchHandler(e)}
+            onChange={(e) => searchHandler(e)}
             value={searchBar}
           />
         </Col>

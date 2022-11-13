@@ -4,6 +4,7 @@ import AddQuote from "./components/AddQuote";
 import RndQuote from "./components/RndQuote";
 import QuotesList from "./components/QuotesList";
 import QuoteDataService from "./services/quote.services";
+import "./style.css"
 
 function App() {
   const [quotes, setQuotes] = useState([]);

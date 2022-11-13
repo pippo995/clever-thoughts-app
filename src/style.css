@@ -1,0 +1,6 @@
+body {    
+    background: radial-gradient(circle, rgba(174,238,229,1) 0%, rgba(148,187,233,1) 100%);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
