@@ -2,29 +2,33 @@ import React from "react";
 import { Col, Card, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const Quote = ({ quote, getQuotes }) => {
+const Quote = ({ quote, fetchQuotes }) => {
   function copyHandler(quote) {
-    const quoteClip = quote.text + "\n" + "( " + quote.author + " )";
+    const quoteClip = `${quote.text}\n (${quote.author})`;
     navigator.clipboard.writeText(quoteClip);
   }
 
   function deleteHandler(quote) {
     QuoteDataService.deleteQuote(quote.id);
-    getQuotes();
+    fetchQuotes();
   }
 
   return (
     <Col>
-      <Card style={{"height" : "100%"}}>
-        <Card.Body>
-          <p>{quote.text}</p>
+      <Card style={{ height: "100%" }}>
+        <Card.Body className="d-flex flex-column">
+          <p>
+            <i>{quote.text}</i>
+          </p>
           <h4>- {quote.author}</h4>
-          <Button size="sm" onClick={() => copyHandler(quote)}>
-            Copy
-          </Button>
-          <Button size="sm" onClick={() => deleteHandler(quote)}>
-            Delete
-          </Button>
+          <div className="mt-auto ms-auto">
+            <Button size="sm" onClick={() => copyHandler(quote)}>
+              Copy
+            </Button>
+            <Button size="sm" onClick={() => deleteHandler(quote)}>
+              Delete
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     </Col>

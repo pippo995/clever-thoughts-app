@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const AddQuote = ({ getQuotes }) => {
+const AddQuote = ({ fetchQuotes }) => {
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
 
@@ -32,30 +32,33 @@ const AddQuote = ({ getQuotes }) => {
 
     setText("");
     setAuthor("");
-    getQuotes();
+    fetchQuotes();
   }
 
   return (
     <>
       <Form onSubmit={addHandler}>
-        <Form.Group>
-          <Form.Control
+        <Form.Group className="d-flex flex-column">
+          <Form.Control 
+            className="mb-1" 
             as="textarea"
-            style={{ resize: "none" }}
+            style={{ resize: "none"}}
+            maxLength="300"
             rows={4}
-            placeholder="Quote"
+            placeholder="Quote (max 300 char)"
             value={text}
             onChange={textHandler}
           />
 
           <Form.Control
+            className="mb-1" 
             type="text"
             placeholder="Author"
             value={author}
             onChange={authorHandler}
           />
 
-          <Button type="submit">Save</Button>
+          <Button className="align-self-center" type="submit" size="lg">Save</Button>
         </Form.Group>
       </Form>
     </>

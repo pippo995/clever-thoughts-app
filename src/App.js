@@ -1,56 +1,53 @@
-import { useState } from "react";
-import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Navbar, Container, Row, Col } from "react-bootstrap";
 import AddQuote from "./components/AddQuote";
 import RndQuote from "./components/RndQuote";
 import QuotesList from "./components/QuotesList";
 import QuoteDataService from "./services/quote.services";
 
 function App() {
-  const [width, setWidth] = useState(window.innerWidth);
   const [quotes, setQuotes] = useState([]);
   const [rndQuotes, setRndQuotes] = useState([]);
 
-  function handleResize() {
-    setWidth(window.innerWidth);
-  }
-  window.addEventListener("resize", handleResize);
+  useEffect( () => { 
+    fetchQuotes();
+    fetchRndQuotes();
+  }, [])
 
-  async function getQuotes() {
+  async function fetchQuotes() {
     const data = await QuoteDataService.getAllQuotes();
     setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   }
 
-  async function getRndQuotes() {
+  async function fetchRndQuotes() {
     const data = await fetch("https://type.fit/api/quotes").then((response) =>
       response.json()
     );
     setRndQuotes(data);
-    //console.log("dt:" + data);
-    //console.log("set:" + rndQuotes);
   }
 
   return (
     <>
-      <Navbar>
-        <Navbar.Brand>Quotes App</Navbar.Brand>
+      <Navbar variant="light" bg="light">
+        <Container>
+          <Navbar.Brand>Quotes App</Navbar.Brand>
+        </Container>
       </Navbar>
       <Container>
-        <Row className="g-2">
+        <Row className="g-2 mt-2 mb-3">
           <Col>
-            <AddQuote getQuotes={getQuotes} />
+            <AddQuote fetchQuotes={fetchQuotes} />
           </Col>
-          <Col>
-            {width > 500 ? (
-              <RndQuote
-                rndQuotes={rndQuotes}
-                getRndQuotes={getRndQuotes}
-                getQuotes={getQuotes}
-              />
-            ) : null}
+          <Col className="d-none d-sm-block">
+            <RndQuote
+              rndQuotes={rndQuotes}
+              fetchRndQuotes={fetchRndQuotes}
+              fetchQuotes={fetchQuotes}
+            />
           </Col>
         </Row>
-     
-        <QuotesList quotes={quotes} getQuotes={getQuotes} />
+
+        <QuotesList quotes={quotes} fetchQuotes={fetchQuotes} />
       </Container>
     </>
   );

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const RndQuote = ({ rndQuotes, getRndQuotes, getQuotes }) => {
+const RndQuote = ({ rndQuotes, fetchRndQuotes, fetchQuotes }) => {
   const [rndQuote, setRndQuote] = useState({ text: "", author: "" });
 
   useEffect(() => {
-    getRndQuotes();
+    fetchRndQuotes();
     //setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
   }, []);
 
@@ -23,7 +23,7 @@ const RndQuote = ({ rndQuotes, getRndQuotes, getQuotes }) => {
       await QuoteDataService.addQuotes(newQuote);
     } catch (err) {}
 
-    getQuotes();
+    fetchQuotes();
     setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
   }
 
@@ -34,11 +34,17 @@ const RndQuote = ({ rndQuotes, getRndQuotes, getQuotes }) => {
   return (
     <>
       <Card>
-        <Card.Body>
+        <Card.Body className="d-flex flex-column">
           <p>{rndQuote.text}</p>
           <h4>- {rndQuote.author !== "" ? rndQuote.author : "Anonymus"}</h4>
-          <Button size="sm" onClick={saveHandler}>Save</Button>
-          <Button size="sm" onClick={dismissHandler}>Dismiss</Button>
+          <div className="mt-auto ms-auto">
+            <Button size="sm" onClick={saveHandler}>
+              Save
+            </Button>
+            <Button size="sm" onClick={dismissHandler}>
+              Dismiss
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     </>
