@@ -43,7 +43,7 @@ const QuotesList = ({ quotes, fetchQuotes }) => {
         </Col>
       </Row>
 
-      <Row xs={1} md={2} className="g-2">
+      <Row xs={1} md={2} className="g-2 mb-3">
         {(searchBar !== "" ? searchResults : quotes).map((quote) => {
           return <Quote key={quote.id} quote={quote} fetchQuotes={fetchQuotes} />;
         })}
