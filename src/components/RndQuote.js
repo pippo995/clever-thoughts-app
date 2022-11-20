@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, ButtonGroup } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
 const RndQuote = ({ fetchQuotes }) => {
@@ -46,18 +46,19 @@ const RndQuote = ({ fetchQuotes }) => {
           <h4 id="rndAuthor">
             - {rndQuote.author !== "" ? rndQuote.author : "Anonymus"}
           </h4>
-          <div className="mt-auto ms-auto">
+          <ButtonGroup className="mt-auto ms-auto">
             <Button id="buttonAddRndQuote" size="sm" onClick={saveHandler}>
               Save
             </Button>
             <Button
               id="buttonDismissRndQuote"
               size="sm"
+              variant="danger"
               onClick={dismissHandler}
             >
               Dismiss
             </Button>
-          </div>
+          </ButtonGroup>
         </Card.Body>
       </Card>
     </>

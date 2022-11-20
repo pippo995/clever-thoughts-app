@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navbar, Container, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Row, Col, Button } from "react-bootstrap";
 import AddQuote from "./components/AddQuote";
 import RndQuote from "./components/RndQuote";
 import QuotesList from "./components/QuotesList";
@@ -30,12 +30,27 @@ function App() {
           <Col>
             <AddQuote fetchQuotes={fetchQuotes} />
           </Col>
-          <Col className="d-none d-sm-block">
+          <Col className="d-none d-md-block">
             <RndQuote fetchQuotes={fetchQuotes} />
           </Col>
         </Row>
 
         <QuotesList quotes={quotes} fetchQuotes={fetchQuotes} />
+        <Button
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          }}
+          variant="success"
+          style={{
+            position: "fixed",
+            padding: "1rem 1rem",
+            bottom: "5px",
+            left: "5px",
+            textAlign: "center",
+          }}
+        >
+          Up
+        </Button>
       </Container>
     </>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Card, Button } from "react-bootstrap";
+import { Col, Card, Button, ButtonGroup } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
 const Quote = ({ quote, fetchQuotes }) => {
@@ -21,14 +21,22 @@ const Quote = ({ quote, fetchQuotes }) => {
             <i>{quote.text}</i>
           </p>
           <h4>- {quote.author}</h4>
-          <div className="mt-auto ms-auto">
-            <Button size="sm" onClick={() => copyHandler(quote)}>
+          <ButtonGroup className="mt-auto ms-auto">
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => copyHandler(quote)}
+            >
               Copy
             </Button>
-            <Button size="sm" onClick={() => deleteHandler(quote)}>
+            <Button
+              size="sm"
+              variant="danger"
+              onClick={() => deleteHandler(quote)}
+            >
               Delete
             </Button>
-          </div>
+          </ButtonGroup>
         </Card.Body>
       </Card>
     </Col>
