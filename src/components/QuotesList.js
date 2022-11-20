@@ -31,6 +31,7 @@ const QuotesList = ({ quotes, fetchQuotes }) => {
       <Row className="g-2 mb-2">
         <Col>
           <Form.Control
+            id="searchText"
             type="text"
             placeholder="Search"
             onChange={(e) => searchHandler(e)}
