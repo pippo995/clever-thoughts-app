@@ -2,13 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import QuoteDataService from "../services/quote.services";
 
-const RndQuote = ({ rndQuotes, fetchRndQuotes, fetchQuotes }) => {
-  const [rndQuote, setRndQuote] = useState({ text: "", author: "" });
+const RndQuote = ({ fetchQuotes }) => {
+  const [rndQuotes, setRndQuotes] = useState([]);
+  const [rndQuote, setRndQuote] = useState({});
 
   useEffect(() => {
     fetchRndQuotes();
-    //setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
   }, []);
+
+  async function fetchRndQuotes() {
+    const data = await fetch("https://type.fit/api/quotes").then((response) =>
+      response.json()
+    );
+    setRndQuotes(data);
+    setRndQuote(data[Math.floor(Math.random() * data.length)]);
+  }
 
   async function saveHandler() {
     const text = rndQuote.text;
@@ -19,9 +27,7 @@ const RndQuote = ({ rndQuotes, fetchRndQuotes, fetchQuotes }) => {
         ? { text, author: "Anonymus", dt: new Date() }
         : { text, author, dt: new Date() };
 
-    try {
-      await QuoteDataService.addQuotes(newQuote);
-    } catch (err) {}
+    await QuoteDataService.addQuotes(newQuote);
 
     fetchQuotes();
     setRndQuote(rndQuotes[Math.floor(Math.random() * rndQuotes.length)]);
@@ -34,14 +40,21 @@ const RndQuote = ({ rndQuotes, fetchRndQuotes, fetchQuotes }) => {
   return (
     <>
       <Card>
+        <Card.Header>Inspirational new quote...</Card.Header>
         <Card.Body className="d-flex flex-column">
-          <p>{rndQuote.text}</p>
-          <h4>- {rndQuote.author !== "" ? rndQuote.author : "Anonymus"}</h4>
+          <p id="rndQuote">{rndQuote.text}</p>
+          <h4 id="rndAuthor">
+            - {rndQuote.author !== "" ? rndQuote.author : "Anonymus"}
+          </h4>
           <div className="mt-auto ms-auto">
-            <Button size="sm" onClick={saveHandler}>
+            <Button id="buttonAddRndQuote" size="sm" onClick={saveHandler}>
               Save
             </Button>
-            <Button size="sm" onClick={dismissHandler}>
+            <Button
+              id="buttonDismissRndQuote"
+              size="sm"
+              onClick={dismissHandler}
+            >
               Dismiss
             </Button>
           </div>

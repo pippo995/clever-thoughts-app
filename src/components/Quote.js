@@ -8,8 +8,8 @@ const Quote = ({ quote, fetchQuotes }) => {
     navigator.clipboard.writeText(quoteClip);
   }
 
-  function deleteHandler(quote) {
-    QuoteDataService.deleteQuote(quote.id);
+  async function deleteHandler(quote) {
+    await QuoteDataService.deleteQuote(quote.id);
     fetchQuotes();
   }
 

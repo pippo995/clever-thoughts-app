@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Quote from "./Quote";
 
 const QuotesList = ({ quotes, fetchQuotes }) => {
   const [searchBar, setSearchBar] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  useEffect(() => {
-    fetchQuotes();
-  }, []);
 
   function searchHandler(e) {
     setSearchBar(e.target.value);
@@ -44,8 +40,10 @@ const QuotesList = ({ quotes, fetchQuotes }) => {
       </Row>
 
       <Row xs={1} md={2} className="g-2 mb-3">
-        {(searchBar !== "" ? searchResults : quotes).map((quote) => {
-          return <Quote key={quote.id} quote={quote} fetchQuotes={fetchQuotes} />;
+        {(searchBar.trim() !== "" ? searchResults : quotes).map((quote) => {
+          return (
+            <Quote key={quote.id} quote={quote} fetchQuotes={fetchQuotes} />
+          );
         })}
       </Row>
     </div>

@@ -4,27 +4,18 @@ import AddQuote from "./components/AddQuote";
 import RndQuote from "./components/RndQuote";
 import QuotesList from "./components/QuotesList";
 import QuoteDataService from "./services/quote.services";
-import "./style.css"
+import "./style.css";
 
 function App() {
   const [quotes, setQuotes] = useState([]);
-  const [rndQuotes, setRndQuotes] = useState([]);
 
-  useEffect( () => { 
+  useEffect(() => {
     fetchQuotes();
-    fetchRndQuotes();
-  }, [])
+  }, []);
 
   async function fetchQuotes() {
     const data = await QuoteDataService.getAllQuotes();
     setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  }
-
-  async function fetchRndQuotes() {
-    const data = await fetch("https://type.fit/api/quotes").then((response) =>
-      response.json()
-    );
-    setRndQuotes(data);
   }
 
   return (
@@ -40,11 +31,7 @@ function App() {
             <AddQuote fetchQuotes={fetchQuotes} />
           </Col>
           <Col className="d-none d-sm-block">
-            <RndQuote
-              rndQuotes={rndQuotes}
-              fetchRndQuotes={fetchRndQuotes}
-              fetchQuotes={fetchQuotes}
-            />
+            <RndQuote fetchQuotes={fetchQuotes} />
           </Col>
         </Row>
 

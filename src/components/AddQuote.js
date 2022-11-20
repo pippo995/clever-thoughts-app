@@ -26,9 +26,7 @@ const AddQuote = ({ fetchQuotes }) => {
         ? { text, author: "Anonymus", dt: new Date() }
         : { text, author, dt: new Date() };
 
-    try {
-      await QuoteDataService.addQuotes(newQuote);
-    } catch (err) {}
+    await QuoteDataService.addQuotes(newQuote);
 
     setText("");
     setAuthor("");
@@ -39,26 +37,36 @@ const AddQuote = ({ fetchQuotes }) => {
     <>
       <Form onSubmit={addHandler}>
         <Form.Group className="d-flex flex-column">
-          <Form.Control 
-            className="mb-1" 
+          <Form.Control
+            id="inputQuote"
+            className="mb-1"
             as="textarea"
-            style={{ resize: "none"}}
+            style={{ resize: "none" }}
             maxLength="300"
             rows={4}
             placeholder="Quote (max 300 char)"
             value={text}
             onChange={textHandler}
+            required
           />
 
           <Form.Control
-            className="mb-1" 
+            id="inputAuthor"
+            className="mb-1"
             type="text"
             placeholder="Author"
             value={author}
             onChange={authorHandler}
           />
 
-          <Button className="align-self-center" type="submit" size="lg">Save</Button>
+          <Button
+            id="buttonAddQuote"
+            className="align-self-center"
+            type="submit"
+            size="lg"
+          >
+            Save
+          </Button>
         </Form.Group>
       </Form>
     </>
