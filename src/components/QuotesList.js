@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Quote from "./Quote";
 
@@ -6,11 +6,16 @@ const QuotesList = ({ quotes, fetchQuotes }) => {
   const [searchBar, setSearchBar] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  function searchHandler(e) {
-    setSearchBar(e.target.value);
+  useEffect(() => {
+    searchHandler(searchBar);
+  }, [quotes]);
 
-    if (e.target.value.trim() !== "") {
-      const searchTerms = e.target.value
+
+  function searchHandler(txt) {
+    setSearchBar(txt);
+
+    if (txt.trim() !== "") {
+      const searchTerms = txt
         .split(" ")
         .filter((s) => s.trim().length !== 0);
       const results = quotes.filter((quote) =>
@@ -34,7 +39,7 @@ const QuotesList = ({ quotes, fetchQuotes }) => {
             id="searchText"
             type="text"
             placeholder="Search"
-            onChange={(e) => searchHandler(e)}
+            onChange={(e) => searchHandler(e.target.value)}
             value={searchBar}
           />
         </Col>
